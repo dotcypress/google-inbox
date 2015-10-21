@@ -1,4 +1,5 @@
 var app = require('app');
+var shell = require('shell');
 var BrowserWindow = require('browser-window');
 
 var mainWindow = null;
@@ -12,6 +13,10 @@ function showMainWindow() {
   });
   mainWindow.setTitle('Inbox by Google');
   mainWindow.loadUrl('https://inbox.google.com/');
+  mainWindow.webContents.on('new-window', function(event, url) {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
