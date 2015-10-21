@@ -1,0 +1,14 @@
+{
+  "name": "inbox-app",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "./node_modules/.bin/electron ./app",
+    "build-mac": "electron-packager ./app 'Inbox by Google' --out ./builds --platform=darwin --arch=x64 --version '0.34.0' --overwrite --asar --icon ./resources/icon"
+  },
+  "author": "Vitaly Domnikov",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-packager": "^5.1.0",
+    "electron-prebuilt": "^0.34.0"
+  }
+}
