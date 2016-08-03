@@ -1,7 +1,7 @@
 {
   "name": "inbox-app",
-  "version": "0.0.1",
-  "description": "Google inbox wrapper.",
+  "version": "0.1.0",
+  "description": "Google inbox app.",
   "main": "main.js",
   "author": "Vitaly Domnikov",
   "license": "MIT"

@@ -1,11 +1,6 @@
-var app = require('app');
-var shell = require('shell');
-var BrowserWindow = require('browser-window');
+const { app, shell, BrowserWindow, Menu } = require('electron')
 
-var Menu = require('menu');
-var MenuItem = require('menu-item');
-
-var template = [{
+const template = [{
   label: 'Edit',
   submenu: [{
     label: 'Undo',
@@ -33,41 +28,38 @@ var template = [{
     label: 'Select All',
     accelerator: 'CmdOrCtrl+A',
     role: 'selectall'
-  }, ]
+  } ]
 }, {
   label: 'View',
   submenu: [{
     label: 'Reload',
     accelerator: 'CmdOrCtrl+R',
-    click: function(item, focusedWindow) {
-      if (focusedWindow)
-        focusedWindow.reload();
+    click: function (item, focusedWindow) {
+      if (focusedWindow) {
+        focusedWindow.reload()
+      }
     }
   }, {
     label: 'Toggle Full Screen',
-    accelerator: (function() {
-      if (process.platform === 'darwin')
-        return 'Ctrl+Command+F';
-      else
-        return 'F11';
+    accelerator: (function () {
+      return process.platform === 'darwin' ? 'Ctrl+Command+F' : 'F11'
     })(),
-    click: function(item, focusedWindow) {
-      if (focusedWindow)
-        focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+    click: function (item, focusedWindow) {
+      if (focusedWindow) {
+        focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+      }
     }
   }, {
     label: 'Toggle Developer Tools',
-    accelerator: (function() {
-      if (process.platform === 'darwin')
-        return 'Alt+Command+I';
-      else
-        return 'Ctrl+Shift+I';
+    accelerator: (function () {
+      return process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I'
     })(),
-    click: function(item, focusedWindow) {
-      if (focusedWindow)
-        focusedWindow.toggleDevTools();
+    click: function (item, focusedWindow) {
+      if (focusedWindow) {
+        focusedWindow.toggleDevTools()
+      }
     }
-  }, ]
+  } ]
 }, {
   label: 'Window',
   role: 'window',
@@ -79,11 +71,11 @@ var template = [{
     label: 'Close',
     accelerator: 'CmdOrCtrl+W',
     role: 'close'
-  }, ]
-}];
+  } ]
+}]
 
 if (process.platform === 'darwin') {
-  var name = require('app').getName();
+  var name = app.getName()
   template.unshift({
     label: name,
     submenu: [{
@@ -113,49 +105,48 @@ if (process.platform === 'darwin') {
     }, {
       label: 'Quit',
       accelerator: 'Command+Q',
-      click: function() {
-        app.quit();
+      click: function () {
+        app.quit()
       }
-    }, ]
-  });
+    } ]
+  })
   template[3].submenu.push({
     type: 'separator'
   }, {
     label: 'Bring All to Front',
     role: 'front'
-  });
+  })
 }
 
-menu = Menu.buildFromTemplate(template);
+const menu = Menu.buildFromTemplate(template)
 
+var mainWindow = null
 
-var mainWindow = null;
-
-function showMainWindow() {
+function showMainWindow () {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
     'min-width': 800,
     'min-height': 600
-  });
-  mainWindow.setTitle('Inbox by Google');
-  mainWindow.loadUrl('https://inbox.google.com/');
-  mainWindow.webContents.on('new-window', function(event, url) {
-    event.preventDefault();
-    shell.openExternal(url);
-  });
-  mainWindow.on('closed', function() {
-    mainWindow = null;
-  });
-  Menu.setApplicationMenu(menu);
+  })
+  mainWindow.setTitle('Inbox by Google')
+  mainWindow.loadURL('https://inbox.google.com/')
+  mainWindow.webContents.on('new-window', function (event, url) {
+    event.preventDefault()
+    shell.openExternal(url)
+  })
+  mainWindow.on('closed', function () {
+    mainWindow = null
+  })
+  Menu.setApplicationMenu(menu)
 }
 
-app.on('window-all-closed', function() {
-  if (process.platform != 'darwin') {
-    app.quit();
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') {
+    app.quit()
   }
-});
+})
 
-app.on('activate', showMainWindow);
+app.on('activate', showMainWindow)
 
-app.on('ready', showMainWindow);
+app.on('ready', showMainWindow)

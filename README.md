@@ -1,3 +1,3 @@
-# %platform_name% wrapper for Google Inbox
+# Electron wrapper for Google Inbox
 
 
