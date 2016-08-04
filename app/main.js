@@ -1,4 +1,5 @@
 const { app, shell, BrowserWindow, Menu } = require('electron')
+const { parse } = require('url')
 
 const template = [{
   label: 'Edit',
@@ -119,10 +120,12 @@ if (process.platform === 'darwin') {
 }
 
 const menu = Menu.buildFromTemplate(template)
-
+const inboxUrl = 'https://inbox.google.com/'
+var appUrl = inboxUrl
+var isReady = false
 var mainWindow = null
 
-function showMainWindow () {
+function showMainWindow (appUrl) {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
@@ -130,7 +133,7 @@ function showMainWindow () {
     'min-height': 600
   })
   mainWindow.setTitle('Inbox by Google')
-  mainWindow.loadURL('https://inbox.google.com/')
+  mainWindow.loadURL(appUrl)
   mainWindow.webContents.on('new-window', function (event, url) {
     event.preventDefault()
     shell.openExternal(url)
@@ -147,6 +150,29 @@ app.on('window-all-closed', function () {
   }
 })
 
-app.on('activate', showMainWindow)
+app.on('activate', () => {
+  showMainWindow(inboxUrl)
+})
 
-app.on('ready', showMainWindow)
+app.on('open-url', function (ev, url) {
+  const options = parse(url)
+  if (options.protocol !== 'mailto:') {
+    return
+  }
+  const query = options.query || ''
+  appUrl = `${inboxUrl}?to=${options.auth}@${options.host}&${query}`
+  if (!isReady) {
+    return
+  }
+  if (mainWindow) {
+    mainWindow.loadURL(appUrl)
+    mainWindow.focus()
+  } else {
+    showMainWindow(appUrl)
+  }
+})
+
+app.on('ready', () => {
+  isReady = true
+  showMainWindow(appUrl)
+})

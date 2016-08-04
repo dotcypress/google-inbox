@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "./node_modules/.bin/electron ./app",
-    "build-mac": "electron-packager ./app 'Inbox by Google' --out ./builds --platform=darwin --arch=x64 --overwrite --asar --icon ./resources/icon"
+    "build-mac": "electron-packager ./app 'Inbox by Google' --out ./builds --platform=darwin --arch=x64 --overwrite --asar --icon ./resources/icon --protocol=mailto --protocol-name='Inbox by Google'"
   },
   "author": "Vitaly Domnikov",
   "license": "MIT",
