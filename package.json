@@ -2,16 +2,16 @@
   "name": "inbox-app",
   "version": "0.0.1",
   "scripts": {
-    "start": "./node_modules/.bin/electron ./app",
-    "build-mac": "electron-packager ./app 'Inbox by Google' --out ./builds --platform=darwin --arch=x64 --overwrite --asar --icon ./resources/icon --protocol=mailto --protocol-name='Inbox by Google'"
+    "start": "./node_modules/.bin/electron ./app --protocol=mailto --protocol-name='Inbox by Google'",
+    "build:mac": "electron-packager ./app 'Inbox by Google' --out ./builds --platform=darwin --arch=x64 --overwrite --asar --icon ./resources/icon --protocol=mailto --protocol-name='Inbox by Google'"
   },
   "author": "Vitaly Domnikov",
   "license": "MIT",
   "devDependencies": {
-    "electron-packager": "^7.3.0",
-    "electron-prebuilt": "^1.3.1",
+    "electron": "^1.4.1",
+    "electron-packager": "^8.0.0",
     "eslint": "^3.1.1",
-    "eslint-config-standard": "^5.3.1",
+    "eslint-config-standard": "^6.0.1",
     "eslint-plugin-mocha": "^4.0.0",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0"
