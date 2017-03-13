@@ -137,7 +137,7 @@ function showMainWindow (appUrl) {
   mainWindow.webContents.on('new-window', function (event, url) {
     event.preventDefault()
     if (url.startsWith('https://accounts.google.com') || url.startsWith('https://inbox.google.com')) {
-       mainWindow.loadURL(url)
+      mainWindow.loadURL(url)
       return
     }
     shell.openExternal(url)
